@@ -1,0 +1,49 @@
+---
+- name: Download Vector .deb package
+  get_url:
+    url: "https://packages.timber.io/vector/0.47.0/vector_0.47.0-1_amd64.deb"
+    dest: "/tmp/vector.deb"
+  when: ansible_os_family == 'Debian'
+
+- name: Install Vector package (Debian)
+  apt:
+    deb: /tmp/vector.deb
+  when: ansible_os_family == 'Debian'
+
+- name: Download Vector .rpm package
+  get_url:
+    url: "https://packages.timber.io/vector/0.47.0/vector-0.47.0-1.x86_64.rpm"
+    dest: "/tmp/vector.rpm"
+  when: ansible_os_family == 'RedHat'
+
+- name: Install Vector package (RHEL)
+  yum:
+    name: /tmp/vector.rpm
+    state: present
+    disable_gpg_check: yes
+  when: ansible_os_family == 'RedHat'
+
+- name: Create Vector config directory
+  file:
+    path: /etc/vector
+    state: directory
+    mode: 0755
+
+- name: Create minimal Vector configuration
+  copy:
+    dest: /etc/vector/config.toml
+    content: |
+      [sources.in]
+      type = "stdin"
+      
+      [sinks.out]
+      type = "console"
+      inputs = ["in"]
+      encoding.codec = "json"
+    mode: 0644
+
+- name: Run Vector in background (container-friendly)
+  shell: "nohup vector --config /etc/vector/ > /var/log/vector.log 2>&1 &"
+  args:
+    creates: /var/log/vector.log
+  when: ansible_virtualization_type == "docker"

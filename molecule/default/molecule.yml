@@ -1,0 +1,45 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+    requirements-file: collections.yml
+
+driver:
+  name: docker
+
+platforms:
+  - name: ubuntu-test
+    image: ubuntu:20.04
+    command: sleep infinity
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - debian
+    dockerfile: Dockerfile.ubuntu.j2
+
+  - name: oracle-test
+    image: oraclelinux:8
+    command: sleep infinity
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - redhat
+    dockerfile: Dockerfile.oracle.j2
+
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+      debian:
+        vector_install_method: deb
+      redhat:
+        vector_install_method: rpm
+
+verifier:
+  name: ansible
+  directory: ../tests/

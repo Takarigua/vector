@@ -1,0 +1,19 @@
+# Кеш и временные файлы
+.cache/
+*.retry
+
+# Molecule артефакты
+cleanup
+converge
+create
+destroy
+lint
+prepare
+syntax
+
+# Конфиги
+.yamllint
+ansible.cfg
+
+# Временные файлы и мусор
+{changed:

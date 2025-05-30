@@ -1,0 +1,12 @@
+FROM oraclelinux:8
+
+RUN dnf install -y \
+        python39 \
+        sudo \
+        curl \
+        gnupg2 \
+        ca-certificates && \
+    alternatives --set python3 /usr/bin/python3.9 && \
+    dnf clean all
+
+CMD ["sleep", "infinity"]

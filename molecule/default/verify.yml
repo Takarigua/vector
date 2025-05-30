@@ -1,0 +1,32 @@
+---
+- name: Verify Vector installation
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Check Vector binary exists
+      stat:
+        path: /usr/bin/vector
+      register: vector_bin
+
+    - name: Fail if Vector not installed
+      fail:
+        msg: "Vector is not installed"
+      when: not vector_bin.stat.exists
+
+    - name: Validate Vector config
+      command: vector validate --no-environment --config-dir /etc/vector
+      register: vector_config
+      changed_when: false
+      ignore_errors: true
+
+    - name: Check Vector process
+      shell: ps aux | grep vector | grep -v grep || true
+      register: vector_process
+      changed_when: false
+
+    - name: Show installation summary
+      debug:
+        msg: |
+          Vector installed: {{ vector_bin.stat.exists }}
+          Config valid: {{ vector_config.rc == 0 }}
+          Process running: {{ vector_process.stdout != "" }}

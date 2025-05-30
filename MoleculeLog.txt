@@ -1,0 +1,226 @@
+user@ubuntu20:~/vector$ molecule test
+command not found in PATH podman
+Failed to load podman driver: 1
+CRITICAL command not found in PATH podman
+ERROR    Failed to load podman driver: 1
+INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+INFO     Performing prerun...
+INFO     Set ANSIBLE_LIBRARY=/home/user/.cache/ansible-compat/0a3b5b/modules:/home/user/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+INFO     Set ANSIBLE_COLLECTIONS_PATH=/home/user/.cache/ansible-compat/0a3b5b/collections:/home/user/.ansible/collections:/usr/share/ansible/collections
+INFO     Set ANSIBLE_ROLES_PATH=/home/user/.cache/ansible-compat/0a3b5b/roles:/home/user/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+INFO     Running default > dependency
+WARNING  Skipping, missing the requirements file.
+WARNING  Skipping, missing the requirements file.
+INFO     Running default > lint
+INFO     Lint is disabled.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+INFO     Sanity checks: 'docker'
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=ubuntu-test)
+changed: [localhost] => (item=oracle-test)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+ok: [localhost] => (item=ubuntu-test)
+ok: [localhost] => (item=oracle-test)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > syntax
+
+playbook: /home/user/vector/molecule/default/converge.yml
+INFO     Running default > create
+
+PLAY [Create] ******************************************************************
+
+TASK [Log into a Docker registry] **********************************************
+skipping: [localhost] => (item=None) 
+skipping: [localhost] => (item=None) 
+skipping: [localhost]
+
+TASK [Check presence of custom Dockerfiles] ************************************
+ok: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.ubuntu.j2', 'groups': ['debian'], 'image': 'ubuntu:20.04', 'name': 'ubuntu-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+ok: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.oracle.j2', 'groups': ['redhat'], 'image': 'oraclelinux:8', 'name': 'oracle-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+
+TASK [Create Dockerfiles from image names] *************************************
+changed: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.ubuntu.j2', 'groups': ['debian'], 'image': 'ubuntu:20.04', 'name': 'ubuntu-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+changed: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.oracle.j2', 'groups': ['redhat'], 'image': 'oraclelinux:8', 'name': 'oracle-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+
+TASK [Discover local Docker images] ********************************************
+ok: [localhost] => (item={'diff': [], 'dest': '/home/user/.cache/molecule/vector/default/Dockerfile_ubuntu_20_04', 'src': '/home/user/.ansible/tmp/ansible-tmp-1748611751.3418443-164028-140119318373906/source', 'md5sum': '9e63226cae9428a95706155da8601c5e', 'checksum': '9c21f1acddd3917ed39903c03c823db05330671d', 'changed': True, 'uid': 1000, 'gid': 135, 'owner': 'user', 'group': 'docker', 'mode': '0600', 'state': 'file', 'size': 257, 'invocation': {'module_args': {'src': '/home/user/.ansible/tmp/ansible-tmp-1748611751.3418443-164028-140119318373906/source', 'dest': '/home/user/.cache/molecule/vector/default/Dockerfile_ubuntu_20_04', 'mode': '0600', 'follow': False, '_original_basename': 'Dockerfile.ubuntu.j2', 'checksum': '9c21f1acddd3917ed39903c03c823db05330671d', 'backup': False, 'force': True, 'unsafe_writes': False, 'content': None, 'validate': None, 'directory_mode': None, 'remote_src': None, 'local_follow': None, 'owner': None, 'group': None, 'seuser': None, 'serole': None, 'selevel': None, 'setype': None, 'attributes': None}}, 'failed': False, 'item': {'command': 'sleep infinity', 'dockerfile': 'Dockerfile.ubuntu.j2', 'groups': ['debian'], 'image': 'ubuntu:20.04', 'name': 'ubuntu-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+ok: [localhost] => (item={'diff': [], 'dest': '/home/user/.cache/molecule/vector/default/Dockerfile_oraclelinux_8', 'src': '/home/user/.ansible/tmp/ansible-tmp-1748611751.6228166-164028-184861839194286/source', 'md5sum': 'f18416d8e7d98b3973caf02038f26d9a', 'checksum': '1ad70febf056d1f8340631363ff83d012d51b7e0', 'changed': True, 'uid': 1000, 'gid': 135, 'owner': 'user', 'group': 'docker', 'mode': '0600', 'state': 'file', 'size': 236, 'invocation': {'module_args': {'src': '/home/user/.ansible/tmp/ansible-tmp-1748611751.6228166-164028-184861839194286/source', 'dest': '/home/user/.cache/molecule/vector/default/Dockerfile_oraclelinux_8', 'mode': '0600', 'follow': False, '_original_basename': 'Dockerfile.oracle.j2', 'checksum': '1ad70febf056d1f8340631363ff83d012d51b7e0', 'backup': False, 'force': True, 'unsafe_writes': False, 'content': None, 'validate': None, 'directory_mode': None, 'remote_src': None, 'local_follow': None, 'owner': None, 'group': None, 'seuser': None, 'serole': None, 'selevel': None, 'setype': None, 'attributes': None}}, 'failed': False, 'item': {'command': 'sleep infinity', 'dockerfile': 'Dockerfile.oracle.j2', 'groups': ['redhat'], 'image': 'oraclelinux:8', 'name': 'oracle-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
+
+TASK [Build an Ansible compatible image (new)] *********************************
+ok: [localhost] => (item=molecule_local/ubuntu:20.04)
+ok: [localhost] => (item=molecule_local/oraclelinux:8)
+
+TASK [Create docker network(s)] ************************************************
+
+TASK [Determine the CMD directives] ********************************************
+ok: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.ubuntu.j2', 'groups': ['debian'], 'image': 'ubuntu:20.04', 'name': 'ubuntu-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+ok: [localhost] => (item={'command': 'sleep infinity', 'dockerfile': 'Dockerfile.oracle.j2', 'groups': ['redhat'], 'image': 'oraclelinux:8', 'name': 'oracle-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']})
+
+TASK [Create molecule instance(s)] *********************************************
+changed: [localhost] => (item=ubuntu-test)
+changed: [localhost] => (item=oracle-test)
+
+TASK [Wait for instance(s) creation to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) creation to complete (300 retries left).
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '6534581776.164289', 'results_file': '/home/user/.ansible_async/6534581776.164289', 'changed': True, 'item': {'command': 'sleep infinity', 'dockerfile': 'Dockerfile.ubuntu.j2', 'groups': ['debian'], 'image': 'ubuntu:20.04', 'name': 'ubuntu-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '624906232173.164317', 'results_file': '/home/user/.ansible_async/624906232173.164317', 'changed': True, 'item': {'command': 'sleep infinity', 'dockerfile': 'Dockerfile.oracle.j2', 'groups': ['redhat'], 'image': 'oraclelinux:8', 'name': 'oracle-test', 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=7    changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+
+INFO     Running default > prepare
+WARNING  Skipping, prepare playbook not configured.
+INFO     Running default > converge
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Download Vector .deb package] ***********************************
+skipping: [oracle-test]
+changed: [ubuntu-test]
+
+TASK [vector : Install Vector package (Debian)] ********************************
+skipping: [oracle-test]
+changed: [ubuntu-test]
+
+TASK [vector : Download Vector .rpm package] ***********************************
+skipping: [ubuntu-test]
+changed: [oracle-test]
+
+TASK [vector : Install Vector package (RHEL)] **********************************
+skipping: [ubuntu-test]
+changed: [oracle-test]
+
+TASK [vector : Create Vector config directory] *********************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Create minimal Vector configuration] ****************************
+changed: [ubuntu-test]
+changed: [oracle-test]
+
+TASK [vector : Run Vector in background (container-friendly)] ******************
+changed: [ubuntu-test]
+changed: [oracle-test]
+
+PLAY RECAP *********************************************************************
+oracle-test                : ok=6    changed=4    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+ubuntu-test                : ok=6    changed=4    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+
+INFO     Running default > idempotence
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Download Vector .deb package] ***********************************
+skipping: [oracle-test]
+ok: [ubuntu-test]
+
+TASK [vector : Install Vector package (Debian)] ********************************
+skipping: [oracle-test]
+ok: [ubuntu-test]
+
+TASK [vector : Download Vector .rpm package] ***********************************
+skipping: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Install Vector package (RHEL)] **********************************
+skipping: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Create Vector config directory] *********************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [vector : Create minimal Vector configuration] ****************************
+ok: [oracle-test]
+ok: [ubuntu-test]
+
+TASK [vector : Run Vector in background (container-friendly)] ******************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+PLAY RECAP *********************************************************************
+oracle-test                : ok=6    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+ubuntu-test                : ok=6    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+
+INFO     Idempotence completed successfully.
+INFO     Running default > side_effect
+WARNING  Skipping, side effect playbook not configured.
+INFO     Running default > verify
+INFO     Running Ansible Verifier
+
+PLAY [Verify Vector installation] **********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [Check Vector binary exists] **********************************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [Fail if Vector not installed] ********************************************
+skipping: [oracle-test]
+skipping: [ubuntu-test]
+
+TASK [Validate Vector config] **************************************************
+ok: [ubuntu-test]
+ok: [oracle-test]
+
+TASK [Check Vector process] ****************************************************
+ok: [oracle-test]
+ok: [ubuntu-test]
+
+TASK [Show installation summary] ***********************************************
+ok: [oracle-test] => {
+    "msg": "Vector installed: True\nConfig valid: True\nProcess running: True\n"
+}
+ok: [ubuntu-test] => {
+    "msg": "Vector installed: True\nConfig valid: True\nProcess running: True\n"
+}
+
+PLAY RECAP *********************************************************************
+oracle-test                : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu-test                : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Verifier completed successfully.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=ubuntu-test)
+changed: [localhost] => (item=oracle-test)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+changed: [localhost] => (item=ubuntu-test)
+changed: [localhost] => (item=oracle-test)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Pruning extra files from scenario ephemeral directory
+user@ubuntu20:~/vector$ 
