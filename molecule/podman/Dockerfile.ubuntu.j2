@@ -1,0 +1,20 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -y \
+        python3 \
+        sudo \
+        curl \
+        gnupg2 \
+        ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# Добавьте пользователя для Ansible
+RUN useradd -m ansible && \
+    echo 'ansible ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/ansible
+
+USER ansible
+WORKDIR /home/ansible
+
+CMD ["sleep", "infinity"]

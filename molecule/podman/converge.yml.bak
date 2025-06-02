@@ -1,0 +1,37 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  become_method: sudo
+  gather_facts: true
+
+  pre_tasks:
+    - name: Install sudo (Ubuntu)
+      apt:
+        name: sudo
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+      ignore_errors: yes
+
+    - name: Install sudo (OracleLinux)
+      dnf:
+        name: sudo
+        state: present
+      when: ansible_distribution == 'OracleLinux'
+      ignore_errors: yes
+
+    - name: Enable sudo without password
+      lineinfile:
+        path: /etc/sudoers
+        line: 'ALL ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+      when: ansible_facts is defined and ansible_facts['distribution'] in ['Ubuntu', 'OracleLinux']
+
+#    - name: Enable sudo without password
+#      lineinfile:
+#        path: /etc/sudoers
+#        line: 'ALL ALL=(ALL) NOPASSWD: ALL'
+#        validate: 'visudo -cf %s'
+
+  roles:
+    - role: vector
